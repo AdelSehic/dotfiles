@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo wg-quick down wg0 && \
+ip -4 route del 10.1.170.0/24 dev wlp3s0 metric 0

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+ssh_user="root"
+ssh_host="10.1.170.237"
+remote_folder="/opt/pbxware/pw/usr/bin"
+binary_path="/opt/pbxware/sh/pbxware"
+
+# Check if app is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <app>"
+    exit 1
+fi
+
+# Store the app
+app="$1"
+
+target="$HOME/pbxware/$app"
+
+ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
+# make -C "$target"
+cd "$target" || exit
+go build .
+
+wait
+
+scp "$target/$app" "$ssh_user@$ssh_host:$remote_folder"
+ssh "$ssh_user@$ssh_host" "$binary_path start $app"
