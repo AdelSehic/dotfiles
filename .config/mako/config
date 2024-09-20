@@ -1,0 +1,32 @@
+max-history=3
+width=400
+height=250
+
+font=FiraCode Nerd Font 11
+text-alignment=center
+
+background-color=#02385780
+outer-margin=0,30,50,10
+margin=6
+padding=8
+
+border-color=#025373d9
+border-radius=8
+
+icon-location=right
+
+default-timeout=10000
+ignore-timeout=0
+
+progress-color=over #d7d7d9
+
+[urgency=high]
+border-color=#bf616a
+background-color=#023857
+default-timeout=0
+
+[app-name=Spotify]
+background-color=#1DB95440
+border-color=#1DB954
+text-color=#191414
+
