@@ -1,4 +1,0 @@
-#!/bin/bash
-
-sudo wg-quick up wg0 && \
-ip -4 route add 10.1.170.0/24 dev wlp3s0 metric 0
