@@ -177,21 +177,22 @@
         "scroll-step": 5, // %, can be a float
         // "format": "{volume}% {icon} {format_source}",
         "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": "󰟎 ",
+        "format-muted": "   ",
         "format-source": "{volume}% ",
         "format-source-muted": "",
         "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "headphone": " ",
+            "hands-free": " ",
+            "headset": " ",
             "phone": "",
             "portable": "",
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "amixer set Master toggle",
+        "on-click-right": "pavucontrol"
     },
     "custom/media": {
         "format": " {} ",
