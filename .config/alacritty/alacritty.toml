@@ -37,3 +37,6 @@ style = "regular"
 
 [window]
 opacity = 0.7
+
+[env]
+term = "xterm-256color"
