@@ -18,12 +18,12 @@ input * {
 set {
 	$mod Mod1
 	$alt Mod4
-    #$menu wofi --show run | xargs swaymsg exec --
+	# $menu wofi --show drun | xargs swaymsg exec --
 	$menu rofi -show drun | xargs swaymsg exec --
 	$browser firefox
 	$terminal foot
-    #$screenshot grim ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
-    #$screenclip slurp | grim -g - ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+	#$screenshot grim ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
+	#$screenclip slurp | grim -g - ~/Downloads/scrn-$(date +"%Y-%m-%d-%H-%M-%S").png
 	$screenshot exec grim -g "$(slurp -d)" - | wl-copy
 }
 
@@ -185,6 +185,7 @@ client.placeholder      #00000000 #0c0c0c #ffffff #00000000 #00000000
 # output * bg ~/Pictures/wallpapers/Lofi-Room.png stretch
 # output * bg ~/Pictures/wallpapers/pastel-window.png stretch
 output * bg ~/Pictures/wallpapers/saturn.jpg stretch
+# output * bg ~/Pictures/wallpapers/Anime-Lake.png stretch
 
 default_border pixel 2
 # for_window [title="^.*"] border pixel 1, title_format "<b> %class >> %title </b>"
@@ -193,6 +194,9 @@ hide_edge_borders smart
 
 gaps inner 2
 gaps outer 2
+
+# title bar
+title_align center
 
 # for_window [app_id="foot"] border pixel 1
 for_window [app_id="iwgtk"] floating enable

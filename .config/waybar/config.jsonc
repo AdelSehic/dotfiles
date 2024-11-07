@@ -12,10 +12,10 @@
         "group/media-group"
     ],
     "modules-center": [
-        "sway/scratchpad",
+        //"sway/scratchpad",
         // "sway/window",
-        "sway/workspaces",
-        "sway/mode"
+        "hyprland/workspaces"
+        //"sway/mode"
     ],
     "modules-right": [
         // "mpd",
