@@ -27,16 +27,16 @@ foreground = "#ebdbb2"
 [font]
 size = 13.0
 
-[font.bold]
-family = "JetBrainsMono Nerd Font"
-style = "bold"
+# [font.bold]
+# family = "JetBrainsMono Nerd Font"
+# style = "bold"
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+family = "MesloLGS NF"
 style = "regular"
 
 [window]
-opacity = 0.7
+opacity = 0.85
 
 [env]
 term = "xterm-256color"

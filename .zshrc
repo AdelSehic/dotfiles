@@ -87,7 +87,6 @@ plugins=(
   web-search
   zsh-bat
   zsh-fzf-history-search
-  zsh-autopair
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -121,8 +120,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ccat="cat --style=plain,header"
+alias idf='. $HOME/repos/esp-idf/export.sh'
 
 eval "$(zoxide init zsh --cmd cd)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+alias open=xdg-open
