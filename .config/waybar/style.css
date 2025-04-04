@@ -1,19 +1,18 @@
 * {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FiraCode Nerd Font;
-    font-size: 13px;
+    font-family: ZedMono Nerd Font Propo;
+    font-size: 14px;
 }
 
 @define-color foreground rgba (33, 58, 80, 1);
 @define-color neutral rgba (227, 229, 230, 1);
-@define-color background rgba (118, 150, 166, 0.4);
+@define-color background rgba (50, 50, 50, 0.55);
 @define-color backup1 rgba (15, 84, 125, 1);
 @define-color backup rgba (0, 60, 99, 1);
 @define-color accent rgba (217, 87, 0, 1);
 
 window#waybar {
-    margin: 20px;
-    background: transparent;
+    /* margin: 20px; */
+    background: @background;
     color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;
@@ -23,22 +22,8 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-/*
 window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
-*/
-
-window#waybar.termite {
-    background-color: #3F3F3F;
-}
-
-window#waybar.chromium {
-    background-color: #000000;
-    border: none;
+    background-color: @background;
 }
 
 button {
@@ -61,14 +46,14 @@ button:hover {
 }
 
 #workspaces {
-    background: @background;
-    border-radius: 8px;
+    background: @transparent;
+    /* border-radius: 8px; */
 }
 
 #workspaces button {
     padding: 0 2px;
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: 2px;
     min-width: 40px;
 }
 
@@ -78,9 +63,8 @@ button:hover {
 
 /*#workspaces button.focused {*/
 #workspaces button.active {
-    border-radius: 8px;
-    background-color: @accent;
-    box-shadow: inset 0 -1px @neutral;
+    /* background-color: @accent; */
+    box-shadow: inset 0 -2px @accent, inset 0 2px @accent;
 }
 
 #workspaces button.urgent {
@@ -110,7 +94,7 @@ button:hover {
 #power-profiles-daemon,
 #custom-power,
 #mpd {
-    background: @background;
+    /* background: @background; */
     padding: 0 10px;
     color: #ffffff;
 }
@@ -207,8 +191,9 @@ label:focus {
 #custom-mediaprev,
 #custom-mediaplay,
 #custom-medianext {
-    background-color: #66cc99;
-    color: #2a5c45;
+    /* background-color: #66cc99; */
+    /* color: #2a5c45; */
+    padding: 1px;
 }
 
 #custom-mediaprev:hover,
@@ -217,9 +202,9 @@ label:focus {
     background-color: @accent;
 }
 
-#custom-medianext {
-    border-radius: 0px 8px 8px 0px;
-}
+/* #custom-medianext { */
+/*     border-radius: 0px 8px 8px 0px; */
+/* } */
 
 #custom-media.custom-spotify {
     background-color: #66cc99;
@@ -323,4 +308,8 @@ label:focus {
 
 #privacy-item.audio-out {
     background-color: #0069d4;
+}
+
+#mpris {
+    padding-right: 10px;
 }
