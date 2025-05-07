@@ -5,9 +5,8 @@
     "margin": 0,
     "modules-left": [
         "tray",
-        "mpris",
-        "custom/mediaprev",
-        "custom/medianext"
+        // "mpris",
+        "group/media-group"
     ],
     "modules-center": [
         "hyprland/workspaces"
@@ -194,28 +193,21 @@
         "on-click-right": "pavucontrol"
     },
     "custom/media": {
-        "format": " {} ",
-        // "return-type": "json",
-        "max-length": 30,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        // "escape": true,
-        // "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-        "exec": "$HOME/.config/waybar/custom_modules/scrl.sh"
+        "exec": "while true; do cat /tmp/go-mpris/title; sleep 3; done"
     },
     "custom/mediaprev": {
-        "format": " 󰒮 ",
+        "format": " {} ",
+        "exec": "while true; do cat /tmp/go-mpris/left-icon; sleep 3; done",
         "on-click": "playerctl -p spotify previous"
     },
     "custom/mediaplay": {
-        "format": " 󰐎 ",
-        "on-click": "$HOME/.config/waybar/custom_modules/spotify.sh"
+        "format": " {} ",
+        "exec": "while true; do cat /tmp/go-mpris/status-icon; sleep 3; done",
+        "on-click": "playerctl play-pause"
     },
     "custom/medianext": {
-        "format": " 󰒭 ",
+        "format": " {} ",
+        "exec": "while true; do cat /tmp/go-mpris/right-icon; sleep 3; done",
         "on-click": "playerctl -p spotify next"
     },
     "group/media-group": {

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+VM_NAME="ubuntu"
+ETHER_ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
+WIFI_ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
+
+# Check if VM is running
+VM_STATE=$(VBoxManage showvminfo "$VM_NAME" --machinereadable | grep -i ^VMState= | cut -d'"' -f2)
+
+if [[ "$VM_STATE" == "running" ]]; then
+    echo -n "VM '$VM_NAME' is already running. Do you want to restart it? [y/N]: "
+    read -n 1 -s RESTART
+    echo  # move to a new line for clarity
+
+    if [[ "$RESTART" =~ ^[Yy]$ ]]; then
+        echo "Shutting down VM..."
+        VBoxManage controlvm "$VM_NAME" acpipowerbutton
+        echo "Waiting for VM to power off..."
+        while [[ $(VBoxManage showvminfo "$VM_NAME" --machinereadable | grep -i ^VMState= | cut -d'"' -f2) == "running" ]]; do
+            sleep 1
+        done
+    else
+        echo "Exiting script."
+        exit 0
+    fi
+fi
+
+VBoxManage modifyvm "$VM_NAME" --nic3 bridged
+VBoxManage modifyvm "$VM_NAME" --nic2 bridged
+VBoxManage modifyvm "$VM_NAME" --bridgeadapter3 "$WIFI_ADAPTER"
+
+if [[ -n "$ETHER_ADAPTER" ]]; then
+	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$ETHER_ADAPTER"
+	echo "Bridged adapter 2 on $ETHER_ADAPTER"
+else
+	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$WIFI_ADAPTER"
+	echo "Bridged adapter 2 on $WIFI_ADAPTER, Start VPN"
+	sudo wgup
+fi
+
+VBoxManage startvm --type headless "$VM_NAME"
