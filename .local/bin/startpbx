@@ -3,6 +3,56 @@
 VM_NAME="ubuntu"
 ETHER_ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
 WIFI_ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
+ADAPTER_FLAG=""
+NET_FLAG=""
+ADAPTER=""
+
+OPTIONS=$(getopt -o v:a:n: --long vm:,adapter:,net: -- "$@")
+if [ $? -ne 0 ]; then
+    echo "Error parsing options" >&2
+    exit 1
+fi
+
+eval set -- "$OPTIONS"
+
+while true; do
+    case "$1" in
+        -v|--vm)
+            VM_NAME="$2"
+            shift 2
+            ;;
+        -n|--net)
+            NET_FLAG="$2"
+            shift 2
+            ;;
+        -a|--adapter)
+            ADAPTER_FLAG="$2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Unexpected option: $1" >&2
+            exit 1
+            ;;
+    esac
+done
+
+if [[ -n $ADAPTER_FLAG ]]; then
+    ADAPTER="$ADAPTER_FLAG"
+elif [[ -n $NET_FLAG ]]; then
+    ADAPTER=$(ip -o link show | grep "$NET_FLAG" | awk -F': ' '{print $2}')
+else
+    ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
+    [[ -z $ADAPTER ]] && ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
+fi
+
+if [[ -z $ADAPTER ]]; then
+    echo "adapter error" >&2
+    exit 1
+fi
 
 # Check if VM is running
 VM_STATE=$(VBoxManage showvminfo "$VM_NAME" --machinereadable | grep -i ^VMState= | cut -d'"' -f2)
@@ -28,14 +78,19 @@ fi
 VBoxManage modifyvm "$VM_NAME" --nic3 bridged
 VBoxManage modifyvm "$VM_NAME" --nic2 bridged
 VBoxManage modifyvm "$VM_NAME" --bridgeadapter3 "$WIFI_ADAPTER"
-
-if [[ -n "$ETHER_ADAPTER" ]]; then
-	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$ETHER_ADAPTER"
-	echo "Bridged adapter 2 on $ETHER_ADAPTER"
-else
-	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$WIFI_ADAPTER"
-	echo "Bridged adapter 2 on $WIFI_ADAPTER, Start VPN"
-	sudo wgup
+VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$ADAPTER"
+if [[ $ADAPTER == wlp* ]]; then
+    sudo wgup
 fi
+
+
+# if [[ -n "$ETHER_ADAPTER" ]]; then
+# 	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$ETHER_ADAPTER"
+# 	echo "Bridged adapter 2 on $ETHER_ADAPTER"
+# else
+# 	VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$WIFI_ADAPTER"
+# 	echo "Bridged adapter 2 on $WIFI_ADAPTER, Start VPN"
+# 	sudo wgup
+# fi
 
 VBoxManage startvm --type headless "$VM_NAME"

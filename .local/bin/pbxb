@@ -17,9 +17,11 @@ app="$1"
 target="$HOME/pbxware/$app"
 
 ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
-# make -C "$target"
+
 cd "$target" || exit
-go build .
+
+make -C "$target"
+# go build .
 
 wait
 

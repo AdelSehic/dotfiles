@@ -130,6 +130,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ccat="cat --style=plain,header"
 alias idf='. $HOME/repos/esp-idf/export.sh'
+alias py="python3"
 
 eval "$(zoxide init zsh --cmd cd)"
 
