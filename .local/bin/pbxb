@@ -10,18 +10,25 @@ if [ $# -eq 0 ]; then
     echo "Usage: $0 <app>"
     exit 1
 fi
-
-# Store the app
 app="$1"
-
 target="$HOME/pbxware/$app"
 
-ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
+# if i want to build for mt
+if [ -n "$2" ] && [ "$2" = "mt" ]; then
+    ssh_host="10.1.170.236"
+# or just restart the app
+elif [ -n "$2" ] && [ "$2" = "r" ]; then
+    ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
+    ssh "$ssh_user@$ssh_host" "$binary_path start $app"
+    exit 0
+fi
 
 cd "$target" || exit
+if ! make -C "$target"; then
+    exit 1
+fi
 
-make -C "$target"
-# go build .
+ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
 
 wait
 

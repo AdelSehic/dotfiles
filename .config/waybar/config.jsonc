@@ -5,7 +5,7 @@
     "margin": 0,
     "modules-left": [
         "tray",
-        // "mpris",
+        "mpris",
         "group/media-group"
     ],
     "modules-center": [

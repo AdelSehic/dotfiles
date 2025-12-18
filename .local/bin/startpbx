@@ -6,8 +6,9 @@ WIFI_ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
 ADAPTER_FLAG=""
 NET_FLAG=""
 ADAPTER=""
+WG_FLAG=0
 
-OPTIONS=$(getopt -o v:a:n: --long vm:,adapter:,net: -- "$@")
+OPTIONS=$(getopt -o v:a:n:w --long vm:,adapter:,net:,wg -- "$@")
 if [ $? -ne 0 ]; then
     echo "Error parsing options" >&2
     exit 1
@@ -29,8 +30,15 @@ while true; do
             ADAPTER_FLAG="$2"
             shift 2
             ;;
+        -w|--wg)
+            WG_FLAG=1
+            shift
+            ;;
         --)
             shift
+            break
+            ;;
+        "")
             break
             ;;
         *)
@@ -45,14 +53,17 @@ if [[ -n $ADAPTER_FLAG ]]; then
 elif [[ -n $NET_FLAG ]]; then
     ADAPTER=$(ip -o link show | grep "$NET_FLAG" | awk -F': ' '{print $2}')
 else
-    ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
-    [[ -z $ADAPTER ]] && ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
+    ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
+    [[ -z $ADAPTER ]] && ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
 fi
 
 if [[ -z $ADAPTER ]]; then
     echo "adapter error" >&2
     exit 1
 fi
+
+# unload KVM modules
+sudo modprobe -r kvm_intel
 
 # Check if VM is running
 VM_STATE=$(VBoxManage showvminfo "$VM_NAME" --machinereadable | grep -i ^VMState= | cut -d'"' -f2)
@@ -75,11 +86,14 @@ if [[ "$VM_STATE" == "running" ]]; then
     fi
 fi
 
+echo "Briding adapter $ADAPTER"
+
 VBoxManage modifyvm "$VM_NAME" --nic3 bridged
 VBoxManage modifyvm "$VM_NAME" --nic2 bridged
 VBoxManage modifyvm "$VM_NAME" --bridgeadapter3 "$WIFI_ADAPTER"
 VBoxManage modifyvm "$VM_NAME" --bridgeadapter2 "$ADAPTER"
-if [[ $ADAPTER == wlp* ]]; then
+
+if [[ "$WG_FLAG" -eq 1 ]]; then
     sudo wgup
 fi
 
