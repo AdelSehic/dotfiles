@@ -53,8 +53,8 @@ if [[ -n $ADAPTER_FLAG ]]; then
 elif [[ -n $NET_FLAG ]]; then
     ADAPTER=$(ip -o link show | grep "$NET_FLAG" | awk -F': ' '{print $2}')
 else
-    ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
-    [[ -z $ADAPTER ]] && ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
+    ADAPTER=$(ip -o link show | grep enx | awk -F': ' '{print $2}')
+    [[ -z $ADAPTER ]] && ADAPTER=$(ip -o link show | grep wlp | awk -F': ' '{print $2}')
 fi
 
 if [[ -z $ADAPTER ]]; then

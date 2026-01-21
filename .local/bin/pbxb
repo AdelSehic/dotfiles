@@ -13,11 +13,12 @@ fi
 app="$1"
 target="$HOME/pbxware/$app"
 
-# if i want to build for mt
 if [ -n "$2" ] && [ "$2" = "mt" ]; then
     ssh_host="10.1.170.236"
-# or just restart the app
+elif [ -n "$2" ] && [ "$2" = "cc" ]; then
+    ssh_host="192.168.100.17"
 elif [ -n "$2" ] && [ "$2" = "r" ]; then
+    # just restart the app
     ssh "$ssh_user@$ssh_host" "$binary_path stop $app"
     ssh "$ssh_user@$ssh_host" "$binary_path start $app"
     exit 0

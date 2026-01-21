@@ -131,9 +131,12 @@ source $ZSH/oh-my-zsh.sh
 alias ccat="cat --style=plain,header"
 alias idf='. $HOME/repos/esp-idf/export.sh'
 alias py="python3"
+alias bssup="ssh -i /home/bicom/.ssh/id_ed25519 -i /home/bicom/.ssh/bssup_id_rsa.pub -o HostKeyAlgorithms=+ssh-rsa"
 
 eval "$(zoxide init zsh --cmd cd)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 alias open=xdg-open
+
+export PATH=$PATH:/home/bicom/.spicetify
