@@ -63,7 +63,7 @@ if [[ -z $ADAPTER ]]; then
 fi
 
 # unload KVM modules
-sudo modprobe -r kvm_intel
+# sudo modprobe -r kvm_intel
 
 # Check if VM is running
 VM_STATE=$(VBoxManage showvminfo "$VM_NAME" --machinereadable | grep -i ^VMState= | cut -d'"' -f2)
