@@ -12,46 +12,14 @@
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 
 # Ignore maximize requests from apps. You'll probably like this.
-windowrule {
-  name = windowrule-1
-  suppress_event = maximize
-  match:class = .*
-}
-
+windowrulev2 = suppressevent maximize, class:.*
 
 # Fix some dragging issues with XWayland
-windowrule {
-  name = windowrule-2
-  no_focus = on
-  match:class = ^$
-  match:title = ^$
-  match:xwayland = 1
-  match:float = 1
-  match:fullscreen = 0
-  match:pin = 0
-}
+windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
 
-
-windowrule {
-  name = windowrule-3
-  float = on
-  size = 1000 1000
-  match:class = (org.pulseaudio.pavucontrol)
-}
-
-windowrule {
-  name = windowrule-4
-  float = on
-  match:class = (org.gnome.Nautilus)
-}
-
-windowrule {
-  name = windowrule-5
-  float = on
-  size = 1000 1000
-  match:class = (org.kde.dolphin)
-}
-
+windowrulev2 = float, size 1000 1000, class:(org.pulseaudio.pavucontrol)
+windowrulev2 = float, class:(org.gnome.Nautilus)
+windowrulev2 = float, size 1000 1000, class:(org.kde.dolphin)
 
 ###############################
 ###### CUSTOM WORKSPACES ######
